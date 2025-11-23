@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Vocabo — A1</title>
+<style>
+  :root {
+    --blue: #0044cc;
+    --yellow: #ffd400;
+    --bg: rgba(173, 216, 255, 0.22);
+  }
+  body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: linear-gradient(135deg, rgba(248,252,255,0.98), var(--bg));
+    color: var(--blue);
+    margin: 0;
+  }
+  .page { display: none; padding: 28px; min-height:100vh; box-sizing: border-box; }
+  .page.active { display: block; }
+  .card {
+    max-width: 920px;
+    margin: 24px auto;
+    padding: 24px;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.86);
+    box-shadow: 0 6px 20px rgba(0,68,204,0.08);
+  }
+  .center { text-align:center; }
+  h1,h2 { margin: 8px 0; color: var(--blue); }
+  .muted { color: rgba(11,89,168,0.66); }
+
+  .btn {
+    border: none;
+    padding: 16px 28px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1.05rem;
+    transition: transform 0.12s ease, opacity 0.12s;
+  }
+  .btn:hover { transform: translateY(-3px); opacity: 0.97; }
+  .btn-yellow { background: rgba(255,212,0,0.92); color: var(--blue); }
+  .btn-blue { background: rgba(11,89,168,0.92); color: white; }
+
+  .level-buttons { display:flex; justify-content:center; gap:22px; margin-top:18px; flex-wrap:wrap; }
+  input[type=text], textarea { width:100%; padding:10px; border-radius:8px; border:1px solid rgba(11,89,168,0.12); font-size:1rem; }
+
+  footer { position: fixed; left:12px; right:12px; bottom:12px; display:flex; gap:10px; justify-content:center; }
+  img.responsive { max-width:260px; width:100%; height:auto; border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,0.06); }
+
+  @media (max-width:640px){
+    .btn { padding: 12px 18px; font-size:1rem; }
+    .card { margin:12px; padding:14px; }
+    img.responsive { max-width:200px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<section id="page1" class="page active">
+  <div class="card center">
+    <!-- картинка книжки -->
+    <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=1200&auto=format&fit=crop&crop=faces&ixlib=rb-4.0.3&s=3a1d5b4f3f8d9b9c6d3f5b1c2a7f9a12"
+         alt="Book learning English" class="responsive" />
+    <h1>Vocabo</h1>
+    <p class="muted">Ресурс, який допоможе вам покращити рівень англійської мови</p>
+    <div style="height:10px"></div>
+    <button id="startBtn" class="btn btn-yellow" type="button">Розпочати</button>
+  </div>
+</section>
+
+<!-- PAGE 2 -->
+<section id="page2" class="page">
+  <div class="card center">
+    <h2>Обери рівень</h2>
+    <div class="level-buttons">
+      <button class="btn btn-blue levelBtn" data-level="A1">A1</button>
+      <button class="btn btn-yellow levelBtn" data-level="A2">A2</button>
+      <button class="btn btn-blue levelBtn" data-level="B1">B1</button>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 3 -->
+<section id="page3" class="page">
+  <div class="card center">
+    <h2>Обери тип завдання</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:20px">
+      <button class="btn btn-yellow" data-target="page4">Reading</button>
+      <button class="btn btn-yellow" data-target="page6">Speaking</button>
+      <button class="btn btn-yellow" data-target="page7">Listening 🔊</button>
+      <button class="btn btn-yellow" data-target="page8">Writing 🔊</button>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 4: Reading -->
+<section id="page4" class="page">
+  <div class="card">
+    <h2>Reading. Рівень A1</h2>
+    <p><i>My cat. I have a cat. Her name is Luna. She is gray and small. She likes to sleep on the sofa.</i></p>
+    <form id="readingForm">
+      <p>1) What is the cat's name?<br>
+        <label><input type="radio" name="reading_q1" value="Luna"> Luna</label><br>
+        <label><input type="radio" name="reading_q1" value="Kitty"> Kitty</label>
+      </p>
+      <p>2) What color is the cat?<br>
+        <label><input type="radio" name="reading_q2" value="Gray"> Gray</label><br>
+        <label><input type="radio" name="reading_q2" value="Black"> Black</label>
+      </p>
+      <p>3) Where does the cat sleep?<br>
+        <label><input type="radio" name="reading_q3" value="Sofa"> On the sofa</label><br>
+        <label><input type="radio" name="reading_q3" value="Garden"> In the garden</label>
+      </p>
+    </form>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;justify-content:center">
+      <button class="btn btn-blue" id="checkReadingBtn">Перевірити</button>
+      <button class="btn btn-yellow" id="readingAnswerBtn">Правильна відповідь</button>
+      <button class="btn btn-blue navBtn" data-target="page3">Назад</button>
+      <button class="btn btn-yellow navBtn" data-target="page9">Результати</button>
+    </div>
+    <div id="readingResult" class="muted" style="margin-top:12px"></div>
+  </div>
+</section>
+
+<!-- PAGE 6: Speaking (text + image) -->
+<section id="page6" class="page">
+  <div class="card">
+    <h2>Speaking. Рівень A1</h2>
+    <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+      <!-- картинка відповідно до опису -->
+      <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?q=80&w=800&auto=format&fit=crop&crop=faces&ixlib=rb-4.0.3&s=6d5f4f6f8d9c3f1e2b3a4c5d6e7f8a9b"
+           alt="Black cat in a box" class="responsive" style="max-width:320px">
+      <div style="flex:1;min-width:200px">
+        <p class="muted">Опиши картинку англійською (посимвольно порівняємо з еталоном).</p>
+        <input id="speakTextInput" type="text" placeholder="">
+        <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-blue" id="checkSpeakingBtn">Перевірити</button>
+          <button class="btn btn-yellow" id="speakingAnswerBtn">Правильна відповідь</button>
+          <button class="btn btn-blue navBtn" data-target="page3">Назад</button>
+          <button class="btn btn-yellow navBtn" data-target="page9">Результати</button>
+        </div>
+        <div id="speakingResult" class="muted" style="margin-top:10px"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 7: Listening -->
+<section id="page7" class="page">
+  <div class="card">
+    <h2>Listening. Рівень A1</h2>
+    <p class="muted">Натисни <strong>Прослухати</strong> (🔊) — діалог відтвориться голосом браузера.</p>
+    <div style="display:flex;gap:10px;justify-content:center;margin-bottom:12px">
+      <button class="btn btn-yellow" id="playDialogueBtn">Прослухати 🔊</button>
+      <button class="btn btn-blue" id="stopDialogueBtn">Зупинити</button>
+    </div>
+
+    <form id="listeningForm">
+      <p>1) What is Mary’s cat’s name?<br>
+        <label><input type="radio" name="l1" value="Businka"> Businka</label><br>
+        <label><input type="radio" name="l1" value="Milka"> Milka</label>
+      </p>
+      <p>2) What color is Milka?<br>
+        <label><input type="radio" name="l2" value="C"> Gray with white paws and green eyes</label><br>
+        <label><input type="radio" name="l2" value="D"> Orange with black spots</label>
+      </p>
+      <p>3) What does Milka like to do?<br>
+        <label><input type="radio" name="l3" value="B"> Chase a ball of yarn</label><br>
+        <label><input type="radio" name="l3" value="A"> Sleep all day</label>
+      </p>
+    </form>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+      <button class="btn btn-blue" id="checkListeningBtn">Перевірити</button>
+      <button class="btn btn-yellow" id="listeningAnswerBtn">Правильна відповідь</button>
+      <button class="btn btn-blue navBtn" data-target="page3">Назад</button>
+      <button class="btn btn-yellow navBtn" data-target="page9">Результати</button>
+    </div>
+    <div id="listeningResult" class="muted" style="margin-top:12px"></div>
+  </div>
+</section>
+
+<!-- PAGE 8: Writing / Pronunciation -->
+<section id="page8" class="page">
+  <div class="card">
+    <h2>Writing / Pronunciation. Рівень A1</h2>
+    <p class="muted">Прослухай фразу (🔊), натисни <strong>Записати</strong>, наговори зразок, потім — <strong>Перевірити</strong>.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:12px">
+      <button class="btn btn-yellow" id="playPronBtn">Прослухати 🔊</button>
+      <button class="btn btn-blue" id="recBtn">Записати</button>
+      <button class="btn btn-blue" id="checkPronBtn">Перевірити</button>
+      <button class="btn btn-yellow" id="pronAnswerBtn">Правильна відповідь</button>
+    </div>
+
+    <div><b>Розпізнаний текст:</b></div>
+    <div id="recognizedText" style="min-height:48px;padding:8px;border:1px solid rgba(11,89,168,0.06);border-radius:8px;margin-top:8px"></div>
+    <div id="pronResult" class="muted" style="margin-top:10px"></div>
+
+    <div style="margin-top:12px;display:flex;gap:10px">
+      <button class="btn btn-blue navBtn" data-target="page3">Назад</button>
+      <button class="btn btn-yellow navBtn" data-target="page9">Результати</button>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 9: Results -->
+<section id="page9" class="page">
+  <div class="card">
+    <h2>Всі результати</h2>
+    <div id="allResults" class="muted">Немає результатів поки що.</div>
+    <div style="margin-top:12px;display:flex;gap:10px">
+      <button class="btn btn-yellow navBtn" data-target="page2">На головну</button>
+      <button class="btn btn-blue" id="clearResultsBtn">Очистити результати</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <button class="btn btn-blue navBtn" data-target="page3">Вибір типу завдання</button>
+  <button class="btn btn-yellow navBtn" data-target="page9">Всі результати</button>
+</footer>
+
+<script>
+/* ========== STATE & SAMPLES ========== */
+let selectedLevel = 'A1';
+const speakingSample = "A black cat is sitting in a box";
+const pronSample = "I have a little kitten.";
+let recognition = null;
+let isRecording = false;
+let lastTranscript = "";
+
+/* ========== UTIL ========== */
+function normalize(s){ return String(s||'').toLowerCase().replace(/[^a-z0-9\s]/gi,'').replace(/\s+/g,' ').trim(); }
+function compareByChar(ref, ins){
+  const a = normalize(ref);
+  const b = normalize(ins);
+  if(a.length === 0 && b.length === 0) return 100;
+  if(a.length === 0) return 0;
+  let matches = 0;
+  for(let i=0;i<Math.min(a.length,b.length);i++){ if(a[i]===b[i]) matches++; }
+  return Math.round(matches / Math.max(a.length,b.length) * 100);
+}
+
+/* ========== NAVIGATION ========== */
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const el = document.getElementById(id);
+  if(el) el.classList.add('active');
+  if(id === 'page9') renderAllResults();
+}
+
+/* ========== READING ========== */
+function checkReading(){
+  try{
+    const correct = {reading_q1:'Luna', reading_q2:'Gray', reading_q3:'Sofa'};
+    let score = 0;
+    const r1 = document.querySelector('input[name="reading_q1"]:checked');
+    const r2 = document.querySelector('input[name="reading_q2"]:checked');
+    const r3 = document.querySelector('input[name="reading_q3"]:checked');
+    if(r1 && r1.value === correct.reading_q1) score++;
+    if(r2 && r2.value === correct.reading_q2) score++;
+    if(r3 && r3.value === correct.reading_q3) score++;
+    const percent = Math.round(score/3*100);
+    localStorage.setItem('Reading', percent);
+    document.getElementById('readingResult').textContent = `Результат: ${percent}% (${score}/3)`;
+  } catch(e){ console.error(e); alert('Помилка при перевірці Reading'); }
+}
+
+/* ========== SPEAKING (text, посимвольно) ========== */
+function checkSpeaking(){
+  const input = document.getElementById('speakTextInput').value || "";
+  const percent = compareByChar(speakingSample, input);
+  localStorage.setItem('Speaking', percent);
+  const a = normalize(speakingSample);
+  const b = normalize(input);
+  let matches = 0;
+  for(let i=0;i<Math.min(a.length,b.length);i++) if(a[i]===b[i]) matches++;
+  document.getElementById('speakingResult').textContent = `Посимвольно: ${percent}% (${matches} збігів з ${Math.max(a.length,b.length)} символів)`;
+}
+
+/* ========== LISTENING (TTS) ========== */
+function speakText(text){
+  if(!('speechSynthesis' in window)){ alert('TTS не підтримується в цьому браузері.'); return; }
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US';
+  const voices = speechSynthesis.getVoices();
+  if(voices && voices.length){
+    const v = voices.find(x=>/en/i.test(x.lang)) || voices[0];
+    if(v) u.voice = v;
+  }
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+function playDialogue(){
+  const text = `Oksana: Hi, Mary! How are you? Mary: Hi, Oksana! I'm great, especially since I got a kitty! Oksana: Really? Congratulations! What's her name? Mary: Her name is Milka. She's so cute — gray with white paws and green eyes. Oksana: How lovely! How old is she? Mary: She's five months old. She's very playful, especially loves to chase a ball of yarn.`;
+  speakText(text);
+}
+function stopDialogue(){ if('speechSynthesis' in window) speechSynthesis.cancel(); }
+function checkListening(){
+  try{
+    const correct = {l1:'Milka', l2:'C', l3:'B'};
+    let score=0;
+    const a1 = document.querySelector('input[name="l1"]:checked');
+    const a2 = document.querySelector('input[name="l2"]:checked');
+    const a3 = document.querySelector('input[name="l3"]:checked');
+    if(a1 && a1.value === correct.l1) score++;
+    if(a2 && a2.value === correct.l2) score++;
+    if(a3 && a3.value === correct.l3) score++;
+    const percent = Math.round(score/3*100);
+    localStorage.setItem('Listening', percent);
+    document.getElementById('listeningResult').textContent = `Результат: ${percent}% (${score}/3)`;
+  } catch(e){ console.error(e); alert('Помилка при перевірці Listening'); }
+}
+
+/* ========== PRONUNCIATION (record & compare) ========== */
+function initRecognition(){
+  if(recognition) return;
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ recognition = null; return; }
+  recognition = new SR();
+  recognition.lang = 'en-US';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+  recognition.onresult = (ev)=>{ lastTranscript = ev.results[0][0].transcript || ""; document.getElementById('recognizedText').textContent = lastTranscript; };
+  recognition.onerror = (ev)=>{ console.error('rec error', ev); alert('Помилка розпізнавання: ' + (ev.error||'')); isRecording = false; updateRecBtn(); };
+  recognition.onend = ()=>{ isRecording = false; updateRecBtn(); };
+}
+function toggleRecording(){
+  initRecognition();
+  if(!recognition){ alert('Розпізнавання голосу не підтримується в цьому браузері. Спробуйте Chrome/Edge.'); return; }
+  if(isRecording){ recognition.stop(); isRecording = false; }
+  else { lastTranscript=''; document.getElementById('recognizedText').textContent = '... запис ...'; recognition.start(); isRecording = true; }
+  updateRecBtn();
+}
+function updateRecBtn(){ const b = document.getElementById('recBtn'); if(!b) return; b.textContent = isRecording ? 'Зупинити' : 'Записати'; }
+function checkPronunciation(){
+  if(!lastTranscript){ alert('Немає записаного тексту. Натисніть "Записати" і промовте фразу.'); return; }
+  const percent = compareByChar(pronSample, lastTranscript);
+  localStorage.setItem('Writing', percent);
+  document.getElementById('pronResult').textContent = `Вимова: ${percent}% (впізнано: "${lastTranscript}")`;
+}
+
+/* ========== RESULTS ========== */
+function renderAllResults(){
+  const r = localStorage.getItem('Reading');
+  const s = localStorage.getItem('Speaking');
+  const l = localStorage.getItem('Listening');
+  const w = localStorage.getItem('Writing');
+  const el = document.getElementById('allResults');
+  if(!r && !s && !l && !w){ el.innerHTML = 'Немає результатів поки що.'; return; }
+  el.innerHTML = `
+    Reading: ${r !== null ? r + '%' : '-'}<br>
+    Speaking: ${s !== null ? s + '%' : '-'}<br>
+    Listening: ${l !== null ? l + '%' : '-'}<br>
+    Writing (pronunciation): ${w !== null ? w + '%' : '-'}
+  `;
+}
+function clearAllResults(){ localStorage.removeItem('Reading'); localStorage.removeItem('Speaking'); localStorage.removeItem('Listening'); localStorage.removeItem('Writing'); renderAllResults(); alert('Результати очищено'); }
+
+/* ========== BIND EVENTS AFTER DOM LOAD ========== */
+document.addEventListener('DOMContentLoaded', ()=>{
+  // Start button (no inline)
+  const startBtn = document.getElementById('startBtn');
+  if(startBtn) startBtn.addEventListener('click', ()=> { selectedLevel='A1'; showPage('page2'); });
+
+  // level buttons
+  document.querySelectorAll('.levelBtn').forEach(b=>{
+    b.addEventListener('click', (e)=>{
+      selectedLevel = e.currentTarget.dataset.level || 'A1';
+      showPage('page3');
+    });
+  });
+
+  // nav buttons (data-target)
+  document.querySelectorAll('.navBtn, button[data-target]').forEach(b=>{
+    b.addEventListener('click', (ev)=>{
+      const t = ev.currentTarget.dataset.target;
+      if(t) showPage(t);
+    });
+  });
+
+  // Reading
+  const cr = document.getElementById('checkReadingBtn');
+  if(cr) cr.addEventListener('click', checkReading);
+  const rans = document.getElementById('readingAnswerBtn');
+  if(rans) rans.addEventListener('click', ()=> alert('Правильні: Luna, Gray, On the sofa'));
+
+  // Speaking
+  const cs = document.getElementById('checkSpeakingBtn');
+  if(cs) cs.addEventListener('click', checkSpeaking);
+  const sans = document.getElementById('speakingAnswerBtn');
+  if(sans) sans.addEventListener('click', ()=> alert('Зразок: A black cat is sitting in a box'));
+
+  // Listening
+  const playBtn = document.getElementById('playDialogueBtn');
+  const stopBtn = document.getElementById('stopDialogueBtn');
+  if(playBtn) playBtn.addEventListener('click', playDialogue);
+  if(stopBtn) stopBtn.addEventListener('click', stopDialogue);
+  const cl = document.getElementById('checkListeningBtn');
+  if(cl) cl.addEventListener('click', checkListening);
+  const lans = document.getElementById('listeningAnswerBtn');
+  if(lans) lans.addEventListener('click', ()=> alert('Правильні: 1) Milka  2) C  3) B'));
+
+  // Pronunciation
+  const playPron = document.getElementById('playPronBtn');
+  if(playPron) playPron.addEventListener('click', ()=> speakText(pronSample));
+  const rec = document.getElementById('recBtn');
+  if(rec) rec.addEventListener('click', toggleRecording);
+  const checkPron = document.getElementById('checkPronBtn');
+  if(checkPron) checkPron.addEventListener('click', checkPronunciation);
+  const pans = document.getElementById('pronAnswerBtn');
+  if(pans) pans.addEventListener('click', ()=> alert('Зразок: I have a little kitten.'));
+
+  // Results
+  const clearBtn = document.getElementById('clearResultsBtn');
+  if(clearBtn) clearBtn.addEventListener('click', clearAllResults);
+
+  // init recognition
+  try{ initRecognition(); } catch(e){ console.warn('Recognition init error', e); }
+
+  // ensure voices load in some browsers
+  if('speechSynthesis' in window) speechSynthesis.onvoiceschanged = ()=>{};
+});
+
+/* Expose showPage for debugging/console */
+window.showPage = showPage;
+</script>
+</body>
+</html>
